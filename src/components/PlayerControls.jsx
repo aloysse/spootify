@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import axios from 'axios'
 import {RiShuffleFill,RiSkipBackFill,RiPlayCircleFill,RiPauseCircleFill,RiSkipForwardFill,RiRepeat2Fill} from 'react-icons/ri'
 import { useStateProvider } from '../utils/StateProvider'
@@ -6,18 +6,37 @@ import { spotifyAPI } from '../utils/spotify'
 import { reducerCases } from '../utils/Constants'
 
 const PlayerControls = () => {
-  const [{token, playerState},dispatch] = useStateProvider();
+  const [{token, playbackState},dispatch] = useStateProvider();
   
+  useEffect(()=>{
+    const getPlayerState = async()=>{
+      const response = await axios.get(`${spotifyAPI}me/player`,{
+        headers:{
+            Authorization: 'Bearer ' + token,
+            'Content-Type': 'application/json',
+        }
+      })
+      console.log(response);
+      const {data} = response;
+      const playbackState = {
+        isPlaying: data.is_playing,
+        repeatState: data.repeat_state,
+        shuffleState: data.shuffle_state
+      }
+      dispatch({type: reducerCases.SET_PLAYER_STATE, playbackState})
+    }
+    getPlayerState();
+  },[]);
 
   const changeState = async () => {
-    const state = playerState ? "pause" : "play";
-    const respose = await axios.put(`${spotifyAPI}me/player/${state}`,{},{
+    const state = playbackState.isPlaying ? "pause" : "play";
+    await axios.put(`${spotifyAPI}me/player/${state}`,{},{
       headers:{
           Authorization: 'Bearer ' + token,
           'Content-Type': 'application/json',
       }
     })
-    dispatch({type:reducerCases.SET_PLAYER_STATE, playerState: !playerState})
+    dispatch({type:reducerCases.SET_PLAYER_STATE, playbackState: {...playbackState, isPlaying: !playbackState.isPlaying}})
   }
 
   const changeTrack = async (type) => {
@@ -58,7 +77,7 @@ const PlayerControls = () => {
         <div className='text-3xl flex justify-center items-center gap-3'>
           <button><RiShuffleFill className='text-xl'/></button>
           <button onClick={()=>changeTrack('previous')}><RiSkipBackFill/></button>
-          <button onClick={()=>changeState()} className='text-5xl'>{playerState? <RiPauseCircleFill/>: <RiPlayCircleFill/>}</button>
+          <button onClick={()=>changeState()} className='text-5xl'>{playbackState && (playbackState.isPlaying? <RiPauseCircleFill/>: <RiPlayCircleFill/>)}</button>
           <button onClick={()=>changeTrack('next')}><RiSkipForwardFill/></button>
           <button><RiRepeat2Fill className='text-xl'/></button>
         </div>
