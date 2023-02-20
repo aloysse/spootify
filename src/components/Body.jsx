@@ -5,7 +5,22 @@ import { spotifyAPI } from '../utils/spotify'
 import { useStateProvider } from '../utils/StateProvider'
 import {RiPlayFill,RiTimeLine} from 'react-icons/ri'
 
-
+const Track = ({index,image,name,artists,album,duration}) =>{
+  return (
+    <div className='grid grid-cols-[30px_1fr_1fr_80px] items-center text-sm text-gray-400'>
+      <div className='p-2'>{index+1}</div>
+      <div className='p-2 flex items-center'>
+        <img className='w-14 mr-4' src={image} alt={name} />
+        <div className='w-[200px]'>{/*待改*/}
+          <p className='text-base text-white whitespace-nowrap overflow-hidden text-ellipsis mb-1' >{name}</p>
+          <p>{artists}</p>
+        </div>
+        </div>
+      <div className='p-2 overflow-hidden text-ellipsis whitespace-nowrap'>{album}</div>
+      <div className='p-2 '>{duration}</div>
+    </div>
+  )
+}
 
 const Body = () => {
   const [{selectedPlaylistId,selectedPlaylist,token},dispatch] = useStateProvider()
@@ -36,6 +51,7 @@ const Body = () => {
           track_number: track.track_number
         }))
       }
+      console.log('取得track資料');
       // console.log(selectedPlaylist)
       dispatch({type: reducerCases.SET_PLAYLIST,
         selectedPlaylist
@@ -43,6 +59,14 @@ const Body = () => {
     }
     getIntialPlayList()
   },[token,dispatch,selectedPlaylistId])
+
+  // 將毫秒計算為時間
+  const msToMinAndSec = (ms)=>{
+    const min = Math.floor(ms/ 60000);
+    const sec = ((ms % 60000) / 1000).toFixed(0);
+    return `${min}:${sec < 10 ? '0' + sec : sec}`
+  }
+
 
   return (<>
    {selectedPlaylist &&
@@ -72,19 +96,8 @@ const Body = () => {
             <div className='p-2'>專輯</div>
             <div className='p-2'><RiTimeLine/></div>
           </div>
-          {selectedPlaylist.tracks.map((track,index)=>(
-            <div key={track.id} className='grid grid-cols-[30px_1fr_1fr_80px] items-center text-sm text-gray-400'>
-              <div className='p-2'>{index+1}</div>
-              <div className='p-2 flex items-center'>
-                <img className='w-14 mr-4' src={track.image} alt={track.name} />
-                <div className='w-[200px]'>{/*待改*/}
-                  <p className='text-base text-white whitespace-nowrap overflow-hidden text-ellipsis mb-1' >{track.name}</p>
-                  <p>{track.artists}</p>
-                </div>
-                </div>
-              <div className='p-2 overflow-hidden text-ellipsis whitespace-nowrap'>{track.album}</div>
-              <div className='p-2 '>{track.duration}</div>
-            </div>
+          {selectedPlaylist.tracks.map(({id,image,name,artists,album,duration},index)=>(
+            <Track key={id} index={index} image={image} name={name} artist={artists} album={album} duration={msToMinAndSec(duration)}/>
           ))}
         </div>
       </div>
