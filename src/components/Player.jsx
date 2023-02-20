@@ -7,7 +7,7 @@ import Navbar from './Navbar'
 const Player = () => {
   return (
     <div className='w-screen h-screen grid grid-rows-[85vh_15vh] overflow-hidden'>
-      <div className='grid grid-cols-[15vw_85vw] h-full w-full bg-gradient-to-t from-slate-500 to-blue-900'>
+      <div className='grid grid-cols-[200px_1fr] h-full w-full bg-gradient-to-t from-slate-500 to-blue-900'>
         <Sidebar / >
           <div>
             <Navbar/>
