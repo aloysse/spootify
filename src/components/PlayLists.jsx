@@ -18,7 +18,6 @@ const PlayLists = () => {
             });
             const {items} = response.data;
             const playlists = items.map(({name,id})=>({name,id}))
-            console.log(playlists);
             dispatch({
                 type:reducerCases.SET_PLAYLISTS,
                 playlists
