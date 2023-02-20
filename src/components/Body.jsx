@@ -7,15 +7,15 @@ import {RiPlayFill,RiTimeLine} from 'react-icons/ri'
 
 const Track = ({index,image,name,artists,album,duration}) =>{
   return (
-    <div className='grid grid-cols-[30px_1fr_1fr_80px] items-center text-sm text-gray-400'>
-      <div className='p-2'>{index+1}</div>
+    <div className='grid grid-cols-[40px_1fr_1fr_80px] items-center text-sm text-gray-400 hover:bg-gray-700 rounded'>
+      <div className='p-2 text-center'>{index+1}</div>
       <div className='p-2 flex items-center'>
         <img className='w-14 mr-4' src={image} alt={name} />
         <div className='w-[200px]'>{/*待改*/}
           <p className='text-base text-white whitespace-nowrap overflow-hidden text-ellipsis mb-1' >{name}</p>
           <p>{artists}</p>
         </div>
-        </div>
+      </div>
       <div className='p-2 overflow-hidden text-ellipsis whitespace-nowrap'>{album}</div>
       <div className='p-2 '>{duration}</div>
     </div>
@@ -90,14 +90,14 @@ const Body = () => {
           <div className=' bg-green-700 text-4xl rounded-full p-3'><RiPlayFill/></div>
         </div>
         <div className='w-full'>
-          <div className='grid grid-cols-[30px_1fr_1fr_80px] text-sm text-gray-400 border-b border-gray-700 mb-5'>
-            <div className='p-2'>#</div>
+          <div className='grid grid-cols-[40px_1fr_1fr_80px] text-sm text-gray-400 border-b border-gray-700 mb-5'>
+            <div className='p-2 text-center'>#</div>
             <div className='p-2'>標題</div>
             <div className='p-2'>專輯</div>
             <div className='p-2'><RiTimeLine/></div>
           </div>
           {selectedPlaylist.tracks.map(({id,image,name,artists,album,duration},index)=>(
-            <Track key={id} index={index} image={image} name={name} artist={artists} album={album} duration={msToMinAndSec(duration)}/>
+            <Track key={id} index={index} image={image} name={name} artists={artists} album={album} duration={msToMinAndSec(duration)}/>
           ))}
         </div>
       </div>
