@@ -26,11 +26,16 @@ const PlayLists = () => {
         getPlayListData();
         }
     ,[token,dispatch])
+
+    const changeCurrentPlaylist = (selectedPlaylistId) => {
+        dispatch({type: reducerCases.SET_PLAYINGLIST_ID, selectedPlaylistId})
+    }
+
   return (
     <div className='relative h-full overflow-y-auto scrollbar-hide'>
         <ul className='absolute w-full'>
         {playlists.map(({name,id})=>(
-            <li key={id} className="whitespace-nowrap text-ellipsis overflow-hidden mb-3">{name}</li>
+            <li onClick={()=>changeCurrentPlaylist(id)} key={id} className="whitespace-nowrap text-ellipsis overflow-hidden mb-3 text-gray-400 hover:text-white cursor-pointer">{name}</li>
         ))}
         </ul></div>
   )
