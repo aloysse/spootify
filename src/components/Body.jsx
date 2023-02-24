@@ -1,13 +1,13 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { reducerCases } from '../utils/Constants'
 import { spotifyAPI } from '../utils/spotify'
 import { useStateProvider } from '../utils/StateProvider'
 import {RiPlayFill,RiTimeLine} from 'react-icons/ri'
 
-const Track = ({index,image,name,artists,album,duration}) =>{
+const Track = ({index,id,image,name,artists,album,duration,preview_url,setCurrentTrack}) =>{
   return (
-    <div className='grid grid-cols-[40px_1fr_1fr_80px] items-center text-sm text-gray-400 hover:bg-gray-700 rounded'>
+    <div onClick={()=>{setCurrentTrack(id,name,artists,image,preview_url,index)}} className='grid grid-cols-[40px_1fr_1fr_80px] items-center text-sm text-gray-400 hover:bg-gray-700 rounded'>
       <div className='p-2 text-center'>{index+1}</div>
       <div className='p-2 flex items-center'>
         <img className='w-14 mr-4' src={image} alt={name} />
@@ -24,7 +24,6 @@ const Track = ({index,image,name,artists,album,duration}) =>{
 
 const Body = () => {
   const [{selectedPlaylistId,selectedPlaylist,token},dispatch] = useStateProvider()
-  const [ formatDuration, setFormatDuration] = useState({});
 
   useEffect(() => {
     const getIntialPlayList = async()=>{
@@ -48,10 +47,11 @@ const Body = () => {
           duration: track.duration_ms,
           album: track.album.name,
           context_uri: track.album.uri,
-          track_number: track.track_number
+          track_number: track.track_number,
+          preview_url: track.preview_url
         }))
       }
-      console.log('取得track資料');
+      // console.log('取得track資料', response);
       // console.log(selectedPlaylist)
       dispatch({type: reducerCases.SET_PLAYLIST,
         selectedPlaylist
@@ -60,6 +60,7 @@ const Body = () => {
     getIntialPlayList()
   },[token,dispatch,selectedPlaylistId])
 
+
   // 將毫秒計算為時間
   const msToMinAndSec = (ms)=>{
     const min = Math.floor(ms/ 60000);
@@ -67,6 +68,17 @@ const Body = () => {
     return `${min}:${sec < 10 ? '0' + sec : sec}`
   }
 
+  const setCurrentTrack = (id,name,artists,image,preview_url,index) => {
+    const currentlyPlaying = {
+      id,
+      name,
+      artists,
+      image,
+      preview_url     
+  }
+  dispatch({type: reducerCases.SET_PLAYING, currentlyPlaying});
+  dispatch({type: reducerCases.SET_PLAYING_INDEX, currentlyPlayingIndex: index});
+  }
 
   return (<>
    {selectedPlaylist &&
@@ -96,8 +108,8 @@ const Body = () => {
             <div className='p-2'>專輯</div>
             <div className='p-2'><RiTimeLine/></div>
           </div>
-          {selectedPlaylist.tracks.map(({id,image,name,artists,album,duration},index)=>(
-            <Track key={id} index={index} image={image} name={name} artists={artists} album={album} duration={msToMinAndSec(duration)}/>
+          {selectedPlaylist.tracks.map(({id,image,name,artists,album,duration,preview_url},index)=>(
+            <Track key={id} setCurrentTrack={setCurrentTrack} id={id} preview_url={preview_url} index={index} image={image} name={name} artists={artists} album={album} duration={msToMinAndSec(duration)}/>
           ))}
         </div>
       </div>

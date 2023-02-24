@@ -7,7 +7,8 @@ export const initailState = {
   selectedPlaylistId: "5FqQl7pyLWgBbLxIAb6K9T",
   selectedPlayList: null,
   currentlyPlaying: null,
-  playbackState: null,
+  currentlyPlayingIndex: 0,
+  playbackState: false,
   volume: 1,
 };
 
@@ -29,16 +30,20 @@ const reducer = (state, action) => {
         userInfo: action.userInfo,
       };
     case reducerCases.SET_PLAYLIST:
+      console.log(action.selectedPlaylist);
       return {
         ...state,
         selectedPlaylist: action.selectedPlaylist,
       };
     case reducerCases.SET_PLAYING:
+      console.log("playing", action.currentlyPlaying);
       return {
         ...state,
         currentlyPlaying: action.currentlyPlaying,
+        // currentlyPlayingIndex: action.currentlyPlayingIndex,
       };
     case reducerCases.SET_PLAYER_STATE:
+      console.log("play state", action.playbackState);
       return {
         ...state,
         playbackState: action.playbackState,
@@ -52,6 +57,12 @@ const reducer = (state, action) => {
       return {
         ...state,
         volume: action.volume,
+      };
+    case reducerCases.SET_PLAYING_INDEX:
+      console.log("index", action.currentlyPlayingIndex);
+      return {
+        ...state,
+        currentlyPlayingIndex: action.currentlyPlayingIndex,
       };
     default:
       return state;
