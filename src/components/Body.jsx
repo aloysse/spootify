@@ -33,7 +33,6 @@ const Body = () => {
           'Content-Type': 'application/json'
         }
       })
-      // console.log(response)
       const selectedPlaylist = {
         id: response.data.id,
         name: response.data.name,
@@ -51,8 +50,6 @@ const Body = () => {
           preview_url: track.preview_url
         }))
       }
-      // console.log('取得track資料', response);
-      // console.log(selectedPlaylist)
       dispatch({type: reducerCases.SET_PLAYLIST,
         selectedPlaylist
       })
@@ -62,10 +59,15 @@ const Body = () => {
 
 
   // 將毫秒計算為時間
-  const msToMinAndSec = (ms)=>{
-    const min = Math.floor(ms/ 60000);
+  const msToMinAndSec = (ms,type)=>{
+    const hr = Math.floor(ms/ 3600000)
+    const min = ((ms % 3600000) / 60000).toFixed(0)
     const sec = ((ms % 60000) / 1000).toFixed(0);
-    return `${min}:${sec < 10 ? '0' + sec : sec}`
+    if(type==='colon'){
+      return `${hr > 0 ? hr +':' : ''}${min}:${sec < 10 ? '0' + sec : sec}`
+    }else{
+      return `${hr > 0 ? hr + '小時' : ''}${min}分鐘`
+    }
   }
 
   const setCurrentTrack = (id,name,artists,image,preview_url,index) => {
@@ -92,7 +94,7 @@ const Body = () => {
           <p>
             {selectedPlaylist.tracks.length} 首歌曲,{' '}
             <span className="text-gray-300">
-           總共幾小時？
+              {msToMinAndSec(selectedPlaylist.tracks.map((item)=>item.duration).reduce((a,b)=>a + b))}
             </span>
           </p>
         </div>
@@ -109,7 +111,7 @@ const Body = () => {
             <div className='p-2'><RiTimeLine/></div>
           </div>
           {selectedPlaylist.tracks.map(({id,image,name,artists,album,duration,preview_url},index)=>(
-            <Track key={id} setCurrentTrack={setCurrentTrack} id={id} preview_url={preview_url} index={index} image={image} name={name} artists={artists} album={album} duration={msToMinAndSec(duration)}/>
+            <Track key={id} setCurrentTrack={setCurrentTrack} id={id} preview_url={preview_url} index={index} image={image} name={name} artists={artists} album={album} duration={msToMinAndSec(duration,'colon')}/>
           ))}
         </div>
       </div>
