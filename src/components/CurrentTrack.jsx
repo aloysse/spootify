@@ -25,7 +25,7 @@ const CurrentTrack = () => {
                     id: item.id,
                     name: item.name,
                     artists: item.artists.map((artist)=>(artist.name)),
-                    image: item.album.images[2].url,                  
+                    image: item.album.images[2].url,
                 }
                 dispatch({type: reducerCases.SET_PLAYING, currentlyPlaying});
             }
@@ -35,6 +35,7 @@ const CurrentTrack = () => {
 
 
     useEffect(()=>{
+        console.log('currentlyPlaying',currentlyPlaying)
         const getRecentlyTrack = async() =>{
             const respose = await axios.get(`${spotifyAPI}me/player/recently-played`,{
                 headers:{
@@ -49,13 +50,14 @@ const CurrentTrack = () => {
                     id: items[0].track.id,
                     name: items[0].track.name,
                     artists: items[0].track.artists.map((artist)=>(artist.name)),
-                    image: items[0].track.album.images[2].url,                  
+                    image: items[0].track.album.images[2].url,
+                    preview_url: items[0].track.preview_url     
                 }
                 dispatch({type: reducerCases.SET_PLAYING, currentlyPlaying});
             }
         }
         getRecentlyTrack();
-    },[])
+    },[token,dispatch])
 
     return (<div> {
         currentlyPlaying && (

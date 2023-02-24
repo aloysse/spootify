@@ -90,7 +90,7 @@ const Body = () => {
           <div className=' bg-green-700 text-4xl rounded-full p-3'><RiPlayFill/></div>
         </div>
         <div className='w-full'>
-          <div className='grid grid-cols-[40px_1fr_1fr_80px] text-sm text-gray-400 border-b border-gray-700 mb-5'>
+          <div className='grid sticky top-0 grid-cols-[40px_1fr_1fr_80px] bg-gray-900 text-sm text-gray-400 border-b border-gray-700 mb-5'>
             <div className='p-2 text-center'>#</div>
             <div className='p-2'>標題</div>
             <div className='p-2'>專輯</div>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import axios from 'axios'
 import {RiShuffleFill,RiSkipBackFill,RiPlayCircleFill,RiPauseCircleFill,RiSkipForwardFill,RiRepeat2Fill} from 'react-icons/ri'
 import { useStateProvider } from '../utils/StateProvider'
@@ -6,7 +6,8 @@ import { spotifyAPI } from '../utils/spotify'
 import { reducerCases } from '../utils/Constants'
 
 const PlayerControls = () => {
-  const [{token, playbackState},dispatch] = useStateProvider();
+  const [{token, playbackState,currentlyPlaying,volume},dispatch] = useStateProvider();
+  const audioRef = useRef(null);
   
   useEffect(()=>{
     const getPlayerState = async()=>{
@@ -28,14 +29,26 @@ const PlayerControls = () => {
     getPlayerState();
   },[]);
 
+  useEffect(()=>{
+    if(audioRef.current){
+      audioRef.current.volume = volume;
+    } 
+  },[volume])
+
   const changeState = async () => {
     const state = playbackState.isPlaying ? "pause" : "play";
-    await axios.put(`${spotifyAPI}me/player/${state}`,{},{
-      headers:{
-          Authorization: 'Bearer ' + token,
-          'Content-Type': 'application/json',
-      }
-    })
+    // await axios.put(`${spotifyAPI}me/player/${state}`,{},{
+    //   headers:{
+    //       Authorization: 'Bearer ' + token,
+    //       'Content-Type': 'application/json',
+    //   }
+    // })
+    console.log(audioRef.current.currentTime)
+    if(playbackState.isPlaying){
+      audioRef.current.pause();
+    }else{
+      audioRef.current.play();
+    }
     dispatch({type:reducerCases.SET_PLAYER_STATE, playbackState: {...playbackState, isPlaying: !playbackState.isPlaying}})
   }
 
@@ -74,6 +87,7 @@ const PlayerControls = () => {
 
   return (
     <div className='max-w-[400px]'>
+        {currentlyPlaying && <audio src={currentlyPlaying.preview_url} ref={audioRef}/>}
         <div className='text-3xl flex justify-center items-center gap-3'>
           <button><RiShuffleFill className='text-xl'/></button>
           <button onClick={()=>changeTrack('previous')}><RiSkipBackFill/></button>
