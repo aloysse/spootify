@@ -26,7 +26,6 @@ const Player = () => {
         {type: reducerCases.SET_USER_INFO,
         userInfo,}
       );
-      console.log('已要求使用者資料')
     }
     getUserInfoData();
   },[dispatch,token])

@@ -30,20 +30,20 @@ const reducer = (state, action) => {
         userInfo: action.userInfo,
       };
     case reducerCases.SET_PLAYLIST:
-      console.log(action.selectedPlaylist);
+      // console.log(action.selectedPlaylist);
       return {
         ...state,
         selectedPlaylist: action.selectedPlaylist,
       };
     case reducerCases.SET_PLAYING:
-      console.log("playing", action.currentlyPlaying);
+      // console.log("playing", action.currentlyPlaying);
       return {
         ...state,
         currentlyPlaying: action.currentlyPlaying,
         // currentlyPlayingIndex: action.currentlyPlayingIndex,
       };
     case reducerCases.SET_PLAYER_STATE:
-      console.log("play state", action.playbackState);
+      // console.log("play state", action.playbackState);
       return {
         ...state,
         playbackState: action.playbackState,
@@ -59,7 +59,7 @@ const reducer = (state, action) => {
         volume: action.volume,
       };
     case reducerCases.SET_PLAYING_INDEX:
-      console.log("index", action.currentlyPlayingIndex);
+      // console.log("index", action.currentlyPlayingIndex);
       return {
         ...state,
         currentlyPlayingIndex: action.currentlyPlayingIndex,
