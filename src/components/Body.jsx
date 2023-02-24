@@ -70,7 +70,7 @@ const Body = () => {
 
   return (<>
    {selectedPlaylist &&
-    (<div className="flex flex-col text-white absolute">
+    (<div className="flex flex-col text-white absolute w-full">
       <div className="p-8 flex">
         <img className=" w-[200px] mr-8" src={selectedPlaylist.image} alt={selectedPlaylist.name} />
         <div className="flex flex-col justify-end">
