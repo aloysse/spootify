@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { reducerCases } from '../utils/Constants'
 import { spotifyAPI } from '../utils/spotify'
 import { useStateProvider } from '../utils/StateProvider'
-import {RiPlayFill,RiTimeLine} from 'react-icons/ri'
+import {RiPlayFill,RiTimeLine,RiPauseFill} from 'react-icons/ri'
 
 const Track = ({index,id,image,name,artists,album,duration,preview_url,setCurrentTrack}) =>{
   return (
@@ -23,7 +23,7 @@ const Track = ({index,id,image,name,artists,album,duration,preview_url,setCurren
 }
 
 const Body = () => {
-  const [{selectedPlaylistId,selectedPlaylist,token},dispatch] = useStateProvider()
+  const [{selectedPlaylistId,playbackState,currentlyPlayingIndex,currentlyPlaying,selectedPlaylist,token},dispatch] = useStateProvider()
 
   useEffect(() => {
     const getIntialPlayList = async()=>{
@@ -82,6 +82,7 @@ const Body = () => {
   dispatch({type: reducerCases.SET_PLAYING_INDEX, currentlyPlayingIndex: index});
   }
 
+
   return (<>
    {selectedPlaylist &&
     (<div className="flex flex-col text-white absolute w-full">
@@ -101,7 +102,7 @@ const Body = () => {
       </div>
       <div className='bg-gray-900 p-8'>
         <div className='flex'>
-          <div className=' bg-green-700 text-4xl rounded-full p-3'><RiPlayFill/></div>
+          {/* <button onClick={changeState} className=' bg-green-700 text-4xl rounded-full p-3 mb-5'>{playbackState ? <RiPauseFill/> :<RiPlayFill/>}</button> */}
         </div>
         <div className='w-full'>
           <div className='grid sticky top-0 grid-cols-[40px_1fr_1fr_80px] bg-gray-900 text-sm text-gray-400 border-b border-gray-700 mb-5'>
