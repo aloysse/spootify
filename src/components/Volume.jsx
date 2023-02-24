@@ -1,12 +1,15 @@
-import React from 'react'
-import axios from 'axios'
+import React,{useState,useRef} from 'react'
+// import axios from 'axios'
 import {TbMicrophone2,TbList,TbVolume2,TbVolume,TbVolumeOff} from 'react-icons/tb'
-import { spotifyAPI } from '../utils/spotify'
 import { useStateProvider } from '../utils/StateProvider'
 import { reducerCases } from '../utils/Constants'
 
 const Volume = () => {
-  const [{token,volume},dispatch] = useStateProvider()
+  const [{volume},dispatch] = useStateProvider()
+  const [mute, setMute] = useState(false);
+  const [volumeControl, setVolumeControl] = useState(100);
+  const valueRef = useRef(null);
+
   const setVolume = (e)=>{
     // await axios.put(`${spotifyAPI}me/player/volume`,{},{
     //   params: {
@@ -17,16 +20,28 @@ const Volume = () => {
     //     'Content-Type': 'application/json',
     // }
     // })
-    console.log(e.target.value/100);
+    setVolumeControl(e.target.value);
     dispatch({type:reducerCases.SET_VOLUME, volume:e.target.value/100})
+  }
+
+  const handleMute = () => {
+    if(!mute){
+      dispatch({type:reducerCases.SET_VOLUME, volume:0})
+      valueRef.current.value = 0;
+      setMute(true)
+    } else {
+      dispatch({type:reducerCases.SET_VOLUME, volume:volumeControl/100})
+      valueRef.current.value = volumeControl;
+      setMute(false)
+    }
   }
   
   return (
     <div className='flex justify-end text-gray-400 gap-3 text-xl'>
       <button><TbMicrophone2/></button>
       <button><TbList/></button>
-      <button><TbVolume2/></button>
-      <div><input type="range" min={0} max={100} defaultValue={volume*100} onMouseUp={setVolume}/></div>
+      <button onClick={()=>{handleMute()}}> {mute? <TbVolumeOff/> : <TbVolume2/> }</button>
+      <div><input type="range" min={0} max={100} defaultValue={volumeControl} onMouseUp={setVolume} ref={valueRef}/></div>
     </div>
   )
 }
