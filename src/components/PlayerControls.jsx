@@ -106,11 +106,11 @@ const PlayerControls = () => {
     <div className='max-w-[400px]'>
         {currentlyPlaying && <audio src={currentlyPlaying.preview_url} ref={audioRef} onEnded={()=>{changeTrack('next')}}/>}
         <div className='text-3xl flex justify-center items-center gap-3'>
-          <button><RiShuffleFill className='text-xl'/></button>
-          <button onClick={()=>changeTrack('previous')}><RiSkipBackFill/></button>
+          <button className='text-gray-400 '><RiShuffleFill className='text-xl'/></button>
+          <button className='text-gray-400 hover:text-white' onClick={()=>changeTrack('previous')}><RiSkipBackFill/></button>
           <button onClick={()=>changeState()} className='text-5xl'>{playbackState? <RiPauseCircleFill/>: <RiPlayCircleFill/>}</button>
-          <button onClick={()=>changeTrack('next')}><RiSkipForwardFill/></button>
-          <button><RiRepeat2Fill className='text-xl'/></button>
+          <button className='text-gray-400 hover:text-white' onClick={()=>changeTrack('next')}><RiSkipForwardFill/></button>
+          <button className='text-gray-400 '><RiRepeat2Fill className='text-xl'/></button>
         </div>
         <div></div>
       </div>

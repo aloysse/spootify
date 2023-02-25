@@ -40,7 +40,7 @@ const Volume = () => {
     <div className='flex justify-end text-gray-400 gap-3 text-xl'>
       <button><TbMicrophone2/></button>
       <button><TbList/></button>
-      <button onClick={()=>{handleMute()}}> {mute? <TbVolumeOff/> : <TbVolume2/> }</button>
+      <button className='hover:text-white' onClick={()=>{handleMute()}}> {mute? <TbVolumeOff/> : <TbVolume2/> }</button>
       <div><input type="range" min={0} max={100} defaultValue={volumeControl} onMouseUp={setVolume} ref={valueRef}/></div>
     </div>
   )

@@ -62,7 +62,7 @@ const CurrentTrack = () => {
         currentlyPlaying && (
             <div className='p-2 flex items-center'>
             <img className='w-14 mr-4' src={currentlyPlaying.image} alt={currentlyPlaying.name}/>
-            <div className='w-[200px]'>{/*待改*/}
+            <div className='min-w-[200px]'>{/*待改*/}
               <p className='text-base text-white whitespace-nowrap overflow-hidden text-ellipsis mb-1' >{currentlyPlaying.name}</p>
               <p className='text-sm text-gray-400'>{currentlyPlaying.artists}</p>
             </div>

@@ -85,7 +85,7 @@ const Body = () => {
 
   return (<>
    {selectedPlaylist &&
-    (<div className="flex flex-col text-white absolute w-full">
+    (<div className="flex flex-col text-white absolute w-full h-full">
       <div className="p-8 flex">
         <img className=" w-[200px] mr-8" src={selectedPlaylist.image} alt={selectedPlaylist.name} />
         <div className="flex flex-col justify-end">
@@ -100,7 +100,7 @@ const Body = () => {
           </p>
         </div>
       </div>
-      <div className='bg-gray-900 p-8'>
+      <div className='bg-gray-900 flex-1 p-8'>
         <div className='flex'>
           {/* <button onClick={changeState} className=' bg-green-700 text-4xl rounded-full p-3 mb-5'>{playbackState ? <RiPauseFill/> :<RiPlayFill/>}</button> */}
         </div>

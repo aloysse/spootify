@@ -31,7 +31,7 @@ const Player = () => {
   },[dispatch,token])
 
   return (
-    <div className='w-screen h-screen grid grid-rows-[85vh_15vh] overflow-hidden'>
+    <div className='w-screen h-screen grid grid-rows-[1fr_120px] overflow-hidden'>
       <div className='grid grid-cols-[260px_1fr] h-full w-full bg-gradient-to-t from-slate-500 to-blue-900'>
         <Sidebar / >
           <div className='flex flex-col'>
