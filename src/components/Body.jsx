@@ -7,11 +7,11 @@ import {RiPlayFill,RiTimeLine,RiPauseFill} from 'react-icons/ri'
 
 const Track = ({index,id,image,name,artists,album,duration,preview_url,setCurrentTrack}) =>{
   return (
-    <div onClick={()=>{setCurrentTrack(id,name,artists,image,preview_url,index)}} className='grid grid-cols-[40px_1fr_1fr_80px] items-center text-sm text-gray-400 hover:bg-gray-700 rounded'>
+    <div onClick={()=>{setCurrentTrack(id,name,artists,image,preview_url,index)}} className='grid grid-cols-[40px_1fr_1fr_80px] w-full items-center text-sm text-gray-400 hover:bg-gray-700 rounded'>
       <div className='p-2 text-center'>{index+1}</div>
-      <div className='p-2 flex items-center'>
+      <div className='p-2 flex items-center min-w-[10px]'>
         <img className='w-14 mr-4' src={image} alt={name} />
-        <div className='w-[200px]'>{/*待改*/}
+        <div className='min-w-[10px]'>
           <p className='text-base text-white whitespace-nowrap overflow-hidden text-ellipsis mb-1' >{name}</p>
           <p>{artists}</p>
         </div>
